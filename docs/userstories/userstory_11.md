@@ -6,7 +6,7 @@
 
 ## Description
 
-The user clicks on a practise session of the history. He can view all his anwsered cards.
+The user clicks on a practise session of the history. He can view all his answered cards.
 
 ## Input
 

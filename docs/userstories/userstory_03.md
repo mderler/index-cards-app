@@ -6,11 +6,11 @@
 
 ## Description
 
-The user selects a topic to add cards to. He writes a question with anwser.
+The user selects a topic to add cards to. He writes a question with answer.
 
 ## Input
 
-question, anwser
+question, answer
 
 ## Internal state change
 

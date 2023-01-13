@@ -6,7 +6,7 @@
 
 ## Description
 
-The user sees the correct awnser and decides if he got the awnser right or not.
+The user sees the correct answer and decides if he got the answer right or not.
 
 ## Input
 

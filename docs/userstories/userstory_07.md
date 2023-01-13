@@ -10,7 +10,7 @@ The user selects a topic to practise.
 
 ## Input
 
-Anwser to question
+Answer to question
 
 ## Internal state change
 
