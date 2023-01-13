@@ -6,9 +6,11 @@
 
 ## Description
 
-The user cicks on a button to delete an existing topic.
+The user selects a topic and deletes it by button press.
 
 ## Input
+
+Button press
 
 ## Internal state change
 

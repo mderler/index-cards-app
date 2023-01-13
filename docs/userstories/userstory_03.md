@@ -10,7 +10,7 @@ The user selects a topic to add cards to. He writes a question with anwser.
 
 ## Input
 
-question, answer
+question, anwser
 
 ## Internal state change
 

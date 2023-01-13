@@ -6,11 +6,11 @@
 
 ## Description
 
-The user selects a topic to edit cards. He can change the question and awnser.
+The user selects a topic to edit cards. He can change the question and anwser.
 
 ## Input
 
-question, answer
+question, anwser
 
 ## Internal state change
 

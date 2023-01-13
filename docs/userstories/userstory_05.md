@@ -10,7 +10,7 @@ The user selects a topic to delete cards.
 
 ## Input
 
-question, answer
+Button click
 
 ## Internal state change
 

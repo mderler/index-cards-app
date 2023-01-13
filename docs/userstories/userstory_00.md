@@ -6,7 +6,7 @@
 
 ## Description
 
-The user cicks on a button to create a new topic. He gives the topic a name.
+The user clicks on a button to create a new topic. He gives the topic a name.
 
 ## Input
 
