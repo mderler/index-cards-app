@@ -14,7 +14,7 @@ Button press
 
 ## Internal state change
 
--   Remove topic with all of its cards
+-   Remove topic with all of its cards from the database.
 
 ## Output
 

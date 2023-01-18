@@ -22,4 +22,4 @@ Topic name
 
 ## Errors
 
--   Topic name already in use.
+-   Topic name already in use
