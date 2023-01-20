@@ -18,7 +18,10 @@ from api import views as api_views
 from django.contrib import admin
 from django.urls import path
 
+from gui import views as gui_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/topics/', api_views.topic_list)
+    path('api/topics/', api_views.topic_list),
+    path('', gui_views.index),
 ]
