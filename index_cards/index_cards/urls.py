@@ -23,5 +23,8 @@ from gui import views as gui_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/topics/', api_views.topic_list),
+    path('api/topic/<int:pk>', api_views.topic_detail),
+    path('api/cards/<int:topic>', api_views.card_list),
+    path('api/card/<int:pk>', api_views.card_detail),
     path('', gui_views.index),
 ]
