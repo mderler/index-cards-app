@@ -26,5 +26,8 @@ urlpatterns = [
     path('api/topic/<int:pk>', api_views.topic_detail),
     path('api/cards/<int:topic>', api_views.card_list),
     path('api/card/<int:pk>', api_views.card_detail),
+    path('api/practisesessions/', api_views.practise_session_list_all),
+    path('api/practisesessions/<int:topic>', api_views.practise_session_list_topic),
+    path('api/practisesession/<int:pk>', api_views.practise_session_detail),
     path('', gui_views.index),
 ]

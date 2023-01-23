@@ -4,8 +4,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Topic, Card
-from .serializers import TopicSerializer, CardSerializer
+from .models import Card, Topic, PractiseSession, SessionCard
+from .serializers import CardSerializer, PractiseSessionSerializer, TopicSerializer
 
 # Create your views here.
 
@@ -68,7 +68,7 @@ def card_list(request, topic):
 @api_view(['GET', 'PUT', 'DELETE'])
 def card_detail(request, pk):
     try:
-        card = Card.objects.get(pk=pk)
+        card = PractiseSession.objects.get(pk=pk)
     except Card.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -85,4 +85,55 @@ def card_detail(request, pk):
 
     if request.method == 'DELETE':
         card.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def practise_session_list_topic(request, topic):
+    practise_sessions = PractiseSession.objects.filter(topic=topic)
+    serializer = PractiseSessionSerializer(practise_sessions, many=True)
+    return JsonResponse({"data": serializer.data})
+
+
+@api_view(['GET', 'POST'])
+def practise_session_list_all(request):
+    if request.method == 'GET':
+        practise_sessions = PractiseSession.objects.all()
+        serializer = PractiseSessionSerializer(practise_sessions, many=True)
+        return JsonResponse({"data": serializer.data})
+
+    if request.method == 'POST':
+        serializer = PractiseSessionSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        pk = serializer.data['id']
+        try:
+            practise_session = PractiseSession.objects.get(pk=pk)
+        except PractiseSession.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            session_topic = practise_session.topic
+        except Topic.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        cards = Card.objects.filter(topic=session_topic)
+        for card in cards:
+            session_card = SessionCard(card=card, practise_session=practise_session)
+            session_card.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET', 'DELETE'])
+def practise_session_detail(request, pk):
+    try:
+        practise_session = PractiseSession.objects.get(pk=pk)
+    except PractiseSession.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = PractiseSessionSerializer(practise_session)
+        return JsonResponse({"data": serializer.data})
+
+    if request.method == 'DELETE':
+        practise_session.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
