@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime
+
 # Create your models here.
 
 
@@ -15,10 +15,11 @@ class Card(models.Model):
 
 class PractiseSession(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    session_start = models.DateTimeField(default=datetime.now)
+    session_start = models.DateTimeField(auto_now_add=True)
 
 
 class SessionCard(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     practise_session = models.ForeignKey(PractiseSession, on_delete=models.CASCADE)
+    user_answer = models.CharField(max_length=250)
     correct = models.BooleanField(null=True)
