@@ -24,4 +24,4 @@ class PractiseSessionSerializer(serializers.ModelSerializer):
 class SessionCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = SessionCard
-        fields = ['id', 'card', 'practise_session', 'correct']
+        fields = ['id', 'card', 'practise_session', 'user_answer', 'correct']
