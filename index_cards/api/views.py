@@ -4,8 +4,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Card, Topic, PractiseSession, SessionCard
-from .serializers import CardSerializer, PractiseSessionSerializer, TopicSerializer, SessionCardSerializer
+from .models import Card, PractiseSession, SessionCard, Topic
+from .serializers import (CardSerializer, PractiseSessionSerializer,
+                          SessionCardSerializer, TopicSerializer)
 
 # Create your views here.
 
@@ -126,7 +127,8 @@ def practise_session_list_all(request):
             return Response(status=status.HTTP_404_NOT_FOUND)
         cards = Card.objects.filter(topic=session_topic)
         for card in cards:
-            session_card = SessionCard(card=card, practise_session=practise_session, user_answer='')
+            session_card = SessionCard(card=card, practise_session=practise_session,
+                                       user_answer='')
             session_card.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
