@@ -16,4 +16,7 @@ export default defineConfig({
     },
     outDir: "./static/js",
   },
+  optimizeDeps: {
+    exclude: ["component-composable"],
+  },
 });
