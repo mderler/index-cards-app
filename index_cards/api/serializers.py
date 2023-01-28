@@ -4,52 +4,35 @@ from .models import Card, PractiseSession, SessionCard, Topic
 
 
 class TopicSerializer(serializers.ModelSerializer):
+    topicName = serializers.CharField(source='topic_name')
+
     class Meta:
         model = Topic
-        fields = ['id', 'topic_name']
-    
-    def to_representation(self, instance: Topic):
-        return {
-            'id': instance.pk,
-            'topicName': instance.topic_name
-        }
+        fields = ['id', 'topicName']
         
 
 class CardSerializer(serializers.ModelSerializer):
+    topicId = serializers.IntegerField(source='topic')
+
     class Meta:
         model = Card
-        fields = ['id', 'topic', 'question', 'answer']
-
-    def to_representation(self, instance: Card):
-        representation = super().to_representation(instance)
-        del(representation['topic'])
-        representation['topicId'] = instance.topic.pk
-        return representation
+        fields = ['id', 'topicId', 'question', 'answer']
 
 
 class PractiseSessionSerializer(serializers.ModelSerializer):
+    topicId = serializers.IntegerField(source='topic')
+    sessionStart = serializers.DateTimeField(source='session_start')
+
     class Meta:
         model = PractiseSession
-        fields = ['id', 'topic', 'session_start']
-
-    def to_representation(self, instance: PractiseSession):
-        return {
-            'id': instance.pk,
-            'topicId': instance.topic.pk,
-            'sessionStart': instance.session_start
-        }
+        fields = ['id', 'topicId', 'sessionStart']
 
 
 class SessionCardSerializer(serializers.ModelSerializer):
+    cardId = serializers.IntegerField(source='card')
+    practiseSession = serializers.IntegerField(source='practise_session')
+    userAnswer = serializers.CharField(source='user_answer')
+
     class Meta:
         model = SessionCard
-        fields = ['id', 'card', 'practise_session', 'user_answer', 'correct']
-    
-    def to_representation(self, instance: SessionCard):
-        return {
-            'id': instance.pk,
-            'cardId': instance.card.pk,
-            'practiseSessionId': instance.practise_session.pk,
-            'userAnswer': instance.user_answer,
-            'correct': instance.correct
-        }
+        fields = ['id', 'cardId', 'practiseSession', 'userAnswer', 'correct']
