@@ -77,7 +77,7 @@ def card_list_topic(request, topic):
 @api_view(['GET', 'PUT', 'DELETE'])
 def card_detail(request, pk):
     try:
-        card = PractiseSession.objects.get(pk=pk)
+        card = Card.objects.get(pk=pk)
     except Card.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
