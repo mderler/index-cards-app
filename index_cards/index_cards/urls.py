@@ -16,7 +16,7 @@ Including another URLconf
 from api import views as api_views
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 
 from gui import views as gui_views
 
@@ -32,5 +32,5 @@ urlpatterns = [
     path('api/practisesession/<int:pk>', api_views.practise_session_detail),
     path('api/sessioncards/<int:practise_session>', api_views.session_card_list),
     path('api/sessioncard/<int:pk>', api_views.session_card_detail),
-    path('', gui_views.index),
+    re_path(r'^.*', gui_views.index),
 ]
