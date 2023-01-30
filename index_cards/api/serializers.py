@@ -1,15 +1,18 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from .models import Card, PractiseSession, SessionCard, Topic
 
 
 class TopicSerializer(serializers.ModelSerializer):
-    topicName = serializers.CharField(source='topic_name')
+    topicName = serializers.CharField(source='topic_name', validators=[
+        UniqueValidator(queryset=Topic.objects.all())
+    ])
 
     class Meta:
         model = Topic
         fields = ['id', 'topicName']
-        
+
 
 class CardSerializer(serializers.ModelSerializer):
     topicId = serializers.IntegerField(source='topic')
