@@ -46,6 +46,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin: 1em;
 }
 button:hover {
   border-color: #646cff;
@@ -85,4 +86,8 @@ button:focus-visible {
 
 .ok-message {
   color: green;
+}
+
+input {
+  margin: 1em auto;
 }

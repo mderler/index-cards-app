@@ -1,4 +1,5 @@
 import { Card, Topic } from "./models";
+import csrftoken from "./token";
 
 export class APIError extends Error {
   response: Response;
@@ -12,8 +13,30 @@ export class APIError extends Error {
 export class APIInterface {
   static baseUrl = new URL("http://localhost:8000/api/");
 
+  private static _modifyRequestOptions(requestOptions: RequestInit) {
+    if (requestOptions.method === "GET") {
+      requestOptions.mode = "same-origin";
+      return requestOptions;
+    }
+    if (requestOptions.method !== "POST" && requestOptions.method !== "PUT") {
+      return requestOptions;
+    }
+    if (!csrftoken || !csrftoken.csrftoken) {
+      console.log("CSRF Error thrown");
+      throw new Error("CSRF Token undefined");
+    }
+    requestOptions.headers = {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrftoken.csrftoken,
+    };
+    return requestOptions;
+  }
+
   private static _fetchAPI(uri: string, requestOptions: RequestInit) {
-    return fetch(new URL(uri, this.baseUrl), requestOptions)
+    return fetch(
+      new URL(uri, this.baseUrl),
+      this._modifyRequestOptions(requestOptions)
+    )
       .then((response) => {
         if (!response.ok) throw new APIError(response);
         return response;

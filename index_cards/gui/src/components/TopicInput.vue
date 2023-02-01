@@ -1,5 +1,4 @@
 <script lang="ts">
-import { request } from "http";
 import { ref, defineComponent } from "vue";
 import { APIInterface, APIError } from "../api";
 
@@ -28,30 +27,41 @@ export default defineComponent({
   methods: {
     async createTopic() {
       APIInterface.postTopic(this.topicName)
-        .then(() => {
+        .then((topic) => {
           this.okMessage = "Topic created";
-          this.$router.push("/addcards");
+
+          this.$router.push({
+            name: "Add cards",
+            params: {
+              id: topic.id,
+              topicName: topic.topicName,
+            },
+          });
         })
         .catch(async (error: Error | APIError) => {
+          console.log(error);
           if (error instanceof APIError) {
+            let errorJson;
             switch (error.response.status) {
               case 400:
-                const error_json = await error.response.json();
-                if (!error_json.topicName) {
+                errorJson = await error.response.json();
+                if (!errorJson.topicName) {
                   break;
                 }
-                if (error_json.topicName[0].includes("unique")) {
+                if (errorJson.topicName[0].includes("unique")) {
                   this.errorMessage = "Topic with name already exists";
                 }
                 break;
 
               default:
+                errorJson = await error.response.json();
                 alert(
-                  "Unknown internal server error: " + error.response.json()
+                  "Unknown internal server error: " + JSON.stringify(errorJson)
                 );
             }
           } else if (error instanceof Error) {
-            alert("Connection to server failed.");
+            console.log(error);
+            alert("Connection to server failed: " + error.message);
           }
         });
     },
