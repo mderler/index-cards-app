@@ -18,7 +18,11 @@ export class APIInterface {
       requestOptions.mode = "same-origin";
       return requestOptions;
     }
-    if (requestOptions.method !== "POST" && requestOptions.method !== "PUT") {
+    if (
+      requestOptions.method !== "POST" &&
+      requestOptions.method !== "PUT" &&
+      requestOptions.method !== "DELETE"
+    ) {
       return requestOptions;
     }
     if (!csrftoken || !csrftoken.csrftoken) {
@@ -29,6 +33,7 @@ export class APIInterface {
       "Content-Type": "application/json",
       "X-CSRFToken": csrftoken.csrftoken,
     };
+    console.log(requestOptions);
     return requestOptions;
   }
 
@@ -41,26 +46,31 @@ export class APIInterface {
         if (!response.ok) throw new APIError(response);
         return response;
       })
-      .then((response) => response.json());
+      .then((response) => {
+        if (response.status === 204) {
+          return;
+        }
+        return response.json();
+      });
   }
 
-  static async getTopics(): Promise<[Topic | any]> {
+  static async getTopics() {
     const requestOptions: RequestInit = {
       method: "GET",
       mode: "same-origin",
     };
     return await this._fetchAPI("topics/", requestOptions).then(
-      (data) => data.data
+      (data) => data.data as Topic[]
     );
   }
 
-  static async getTopic(id: number): Promise<Topic | any> {
+  static async getTopic(id: number) {
     const requestOptions: RequestInit = {
       method: "GET",
       mode: "same-origin",
     };
     return await this._fetchAPI(`topic/${id}`, requestOptions).then(
-      (data) => data.data
+      (data) => data.data as Topic
     );
   }
 
@@ -68,7 +78,7 @@ export class APIInterface {
     const requestOptions: RequestInit = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ topic_name: topicName }),
+      body: JSON.stringify({ topicName: topicName }),
     };
     return await this._fetchAPI(`topic/${id}`, requestOptions);
   }

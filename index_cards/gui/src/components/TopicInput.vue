@@ -29,17 +29,16 @@ export default defineComponent({
       APIInterface.postTopic(this.topicName)
         .then((topic) => {
           this.okMessage = "Topic created";
-
+          console.log(topic);
           this.$router.push({
-            name: "Add cards",
+            name: "Edit Topic",
             params: {
-              id: topic.id,
+              topicId: topic.id,
               topicName: topic.topicName,
             },
           });
         })
         .catch(async (error: Error | APIError) => {
-          console.log(error);
           if (error instanceof APIError) {
             let errorJson;
             switch (error.response.status) {
@@ -60,7 +59,6 @@ export default defineComponent({
                 );
             }
           } else if (error instanceof Error) {
-            console.log(error);
             alert("Connection to server failed: " + error.message);
           }
         });

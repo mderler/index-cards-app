@@ -31,11 +31,6 @@ body {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -54,10 +49,6 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-.card {
-  padding: 2em;
 }
 
 #app {
@@ -86,8 +77,4 @@ button:focus-visible {
 
 .ok-message {
   color: green;
-}
-
-input {
-  margin: 1em auto;
 }

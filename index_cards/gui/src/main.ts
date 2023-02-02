@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 import Home from "./views/Home.vue";
 import CreateTopic from "./views/CreateTopic.vue";
-import AddCardsVue from "./views/AddCards.vue";
+import EditTopicVue from "./views/EditTopic.vue";
 import "./style.css";
 
 const router = createRouter({
@@ -12,9 +12,9 @@ const router = createRouter({
     { path: "/", name: "Home", component: Home },
     { path: "/createtopic", name: "Create Topic", component: CreateTopic },
     {
-      path: "/addcards",
-      name: "Add cards",
-      component: AddCardsVue,
+      path: "/edittopic/:topicId",
+      name: "Edit Topic",
+      component: EditTopicVue,
       props: true,
     },
   ],
