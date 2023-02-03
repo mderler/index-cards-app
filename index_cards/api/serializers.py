@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -15,7 +17,9 @@ class TopicSerializer(serializers.ModelSerializer):
 
 
 class CardSerializer(serializers.ModelSerializer):
-    topicId = serializers.IntegerField(source='topic')
+    topicId = serializers.PrimaryKeyRelatedField(source='topic', queryset=Topic.objects.all())
+    question = serializers.CharField(default='')
+    answer = serializers.CharField(default='')
 
     class Meta:
         model = Card
@@ -23,8 +27,8 @@ class CardSerializer(serializers.ModelSerializer):
 
 
 class PractiseSessionSerializer(serializers.ModelSerializer):
-    topicId = serializers.IntegerField(source='topic')
-    sessionStart = serializers.DateTimeField(source='session_start')
+    topicId = serializers.PrimaryKeyRelatedField(source='topic', queryset=Topic.objects.all())
+    sessionStart = serializers.DateTimeField(source='session_start', default=datetime.now)
 
     class Meta:
         model = PractiseSession
@@ -32,10 +36,11 @@ class PractiseSessionSerializer(serializers.ModelSerializer):
 
 
 class SessionCardSerializer(serializers.ModelSerializer):
-    cardId = serializers.IntegerField(source='card')
-    practiseSession = serializers.IntegerField(source='practise_session')
+    cardId = serializers.PrimaryKeyRelatedField(source='card.id', queryset=Card.objects.all())
+    practiseSessionId = serializers.PrimaryKeyRelatedField(source='practise_session.id',
+                                                           queryset=PractiseSession.objects.all())
     userAnswer = serializers.CharField(source='user_answer')
 
     class Meta:
         model = SessionCard
-        fields = ['id', 'cardId', 'practiseSession', 'userAnswer', 'correct']
+        fields = ['id', 'cardId', 'practiseSessionId', 'userAnswer', 'correct']

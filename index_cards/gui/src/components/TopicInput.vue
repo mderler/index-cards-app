@@ -34,7 +34,6 @@ export default defineComponent({
             name: "Edit Topic",
             params: {
               topicId: topic.id,
-              topicName: topic.topicName,
             },
           });
         })

@@ -86,7 +86,7 @@ def card_detail(request, pk):
         return JsonResponse({"data": serializer.data})
 
     if request.method == 'PUT':
-        serializer = CardSerializer(card, request.data)
+        serializer = CardSerializer(card, request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -169,7 +169,7 @@ def session_card_detail(request, pk):
         return JsonResponse({"data": serializer.data})
 
     if request.method == 'PUT':
-        serializer = SessionCardSerializer(session_card, request.data)
+        serializer = SessionCardSerializer(session_card, request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

@@ -1,7 +1,7 @@
 <script lang="ts">
 import TopicListItem from "./TopicListItem.vue";
 import { defineComponent, ref } from "vue";
-import { APIInterface } from "../api";
+import { APIInterface, APIError } from "../api";
 import { Topic } from "../models";
 
 export default defineComponent({
@@ -9,8 +9,8 @@ export default defineComponent({
     TopicListItem,
   },
   data() {
-    let loaded = ref(false);
-    let topics = ref<Topic[]>();
+    const loaded = ref(false);
+    const topics = ref<Topic[]>();
     APIInterface.getTopics()
       .then((data) => {
         loaded.value = true;
@@ -24,16 +24,33 @@ export default defineComponent({
     };
   },
   methods: {
-    deleteTopic(topicId: number) {
-      const topic = this.topics?.find((topic) => topic.id === topicId);
-      if (!topic) return;
-      const index = this.topics?.indexOf(topic);
-      if (!index) return;
-      this.topics?.splice(index, 1);
-
-      APIInterface.deleteTopic(topicId);
+    _handleError(error: Error | APIError) {
+      if (error instanceof APIError) {
+        let errorJson;
+        alert(JSON.stringify(errorJson));
+      } else if (error instanceof Error) {
+        alert("Connection to server failed: " + error.message);
+      }
     },
-    editTopic(topicId: number) {},
+    deleteTopic(topicId: number) {
+      APIInterface.deleteTopic(topicId)
+        .then(() => {
+          const topic = this.topics?.find((topic) => topic.id === topicId);
+          if (!topic) return;
+          const index = this.topics?.indexOf(topic);
+          if (!index) return;
+          this.topics?.splice(index, 1);
+        })
+        .catch((error) => this._handleError(error));
+    },
+    editTopic(topicId: number) {
+      this.$router.push({
+        name: "Edit Topic",
+        params: {
+          topicId: topicId,
+        },
+      });
+    },
   },
 });
 </script>

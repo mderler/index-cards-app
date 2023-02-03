@@ -1,14 +1,18 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { APIInterface, APIError } from "../api";
+import { Card } from "../models";
+import CardListItem from "../components/CardListItem.vue";
 
 export default defineComponent({
   props: ["topicId"],
-  created() {
-    console.log(this.$props);
+  components: {
+    CardListItem,
   },
   data() {
     const topicName = ref("");
+    const cards = ref<Card[]>();
+
     let oldTopicName = "";
 
     APIInterface.getTopic(this.topicId)
@@ -18,28 +22,56 @@ export default defineComponent({
       })
       .catch((error) => alert(error));
 
+    APIInterface.getTopicCards(this.topicId).then((topicCards) => {
+      cards.value = topicCards;
+    });
+
     return {
       topicName,
       oldTopicName,
+      cards,
     };
   },
   methods: {
+    _handleError(error: Error | APIError) {
+      if (error instanceof APIError) {
+        let errorJson;
+        alert(JSON.stringify(errorJson));
+      } else if (error instanceof Error) {
+        alert("Connection to server failed: " + error.message);
+      }
+    },
     submitTopicName() {
       if (this.oldTopicName === this.topicName) {
         return;
       }
 
-      APIInterface.putTopic(this.topicId, this.topicName).catch(
-        async (error: Error | APIError) => {
-          if (error instanceof APIError) {
-            let errorJson;
-            alert(JSON.stringify(errorJson));
-          } else if (error instanceof Error) {
-            alert("Connection to server failed: " + error.message);
-          }
-        }
-      );
-      this.oldTopicName = this.topicName;
+      APIInterface.putTopic(this.topicId, this.topicName)
+        .then((topic) => {
+          this.oldTopicName = topic.topicName;
+          return topic;
+        })
+        .catch((error) => this._handleError(error));
+    },
+    addCard() {
+      APIInterface.postCard(this.topicId)
+        .then((card) => this.cards?.push(card))
+        .catch((error) => {
+          this._handleError(error);
+        });
+    },
+    deleteCard(cardId: number) {
+      APIInterface.deleteCard(cardId)
+        .then(() => {
+          const topic = this.cards?.find((card) => card.id === cardId);
+          if (!topic) return;
+          const index = this.cards?.indexOf(topic);
+          if (!index) return;
+          this.cards?.splice(index, 1);
+        })
+        .catch((error) => {
+          this._handleError(error);
+        });
     },
   },
 });
@@ -55,25 +87,14 @@ export default defineComponent({
     v-on:focusout="submitTopicName"
     @keyup.enter="submitTopicName"
   />
-  <div class="card">
-    <label for="question-text-area">Question:</label>
-    <textarea id="question-text-area" rows="4" cols="50"></textarea>
-    <label for="answer-text-area">Answer:</label>
-    <textarea id="answer-text-area" rows="4" cols="50"></textarea>
+  <div class="cards">
+    <CardListItem
+      v-for="card in cards"
+      :card-id="card.id"
+      :init-question="card.question"
+      :intit-answer="card.answer"
+      @delete-card="deleteCard"
+    />
   </div>
-  <button>Submit</button>
-  <button>Save</button>
+  <button @click="addCard">Add Card</button>
 </template>
-
-<style scoped>
-textarea {
-  height: 120px;
-  width: 400px;
-  overflow-y: scroll;
-  margin: 1em;
-  resize: none;
-}
-.card {
-  display: flex;
-}
-</style>
