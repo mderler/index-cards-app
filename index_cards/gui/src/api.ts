@@ -1,4 +1,4 @@
-import { Card, Topic } from "./models";
+import { Card, PractiseSession, Topic } from "./models";
 import csrftoken from "./token";
 
 export class APIError extends Error {
@@ -141,5 +141,32 @@ export class APIInterface {
       body: JSON.stringify({ topicId: topicId }),
     };
     return await this._fetchAPI("cards/", requestOptions);
+  }
+
+  static async getPractiseSessions() {
+    const requestOptions: RequestInit = {
+      method: "GET",
+    };
+    return await this._fetchAPI("practisesessions/", requestOptions).then(
+      (data) => data.data as PractiseSession[]
+    );
+  }
+
+  static async postPractiseSession(topicId: number) {
+    const requestOptions: RequestInit = {
+      method: "POST",
+      body: JSON.stringify({ topicId: topicId }),
+    };
+    return await this._fetchAPI("cards/", requestOptions);
+  }
+
+  static async deletePractiseSessions(practiseSessionId: number) {
+    const requestOptions: RequestInit = {
+      method: "DELETE",
+    };
+    return await this._fetchAPI(
+      `practisesession/${practiseSessionId}`,
+      requestOptions
+    );
   }
 }

@@ -99,7 +99,7 @@ def card_detail(request, pk):
 
 @api_view(['GET'])
 def practise_session_list_topic(request, topic):
-    practise_sessions = PractiseSession.objects.filter(topic=topic)
+    practise_sessions = PractiseSession.objects.filter(topic=topic).order_by('session_start')
     serializer = PractiseSessionSerializer(practise_sessions, many=True)
     return JsonResponse({"data": serializer.data})
 
@@ -109,7 +109,7 @@ def practise_session_list_all(request):
     if request.method == 'GET':
         practise_sessions = PractiseSession.objects.all()
         serializer = PractiseSessionSerializer(practise_sessions, many=True)
-        return JsonResponse({"data": serializer.data})
+        return JsonResponse({'data': serializer.data})
 
     if request.method == 'POST':
         serializer = PractiseSessionSerializer(data=request.data)

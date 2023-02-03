@@ -4,6 +4,7 @@ import App from "./App.vue";
 import Home from "./views/Home.vue";
 import CreateTopic from "./views/CreateTopic.vue";
 import EditTopicVue from "./views/EditTopic.vue";
+import PractiseSessionListVue from "./views/PractiseSessionList.vue";
 import "./style.css";
 
 const router = createRouter({
@@ -11,6 +12,11 @@ const router = createRouter({
   routes: [
     { path: "/", name: "Home", component: Home },
     { path: "/createtopic", name: "Create Topic", component: CreateTopic },
+    {
+      path: "/practisesessions",
+      name: "Practise Sessions",
+      component: PractiseSessionListVue,
+    },
     {
       path: "/edittopic/:topicId",
       name: "Edit Topic",

@@ -3,11 +3,13 @@ import { defineComponent, ref } from "vue";
 import { APIInterface, APIError } from "../api";
 import { Card } from "../models";
 import CardListItem from "../components/CardListItem.vue";
+import HomeButton from "../components/HomeButton.vue";
 
 export default defineComponent({
   props: ["topicId"],
   components: {
     CardListItem,
+    HomeButton,
   },
   data() {
     const topicName = ref("");
@@ -78,6 +80,7 @@ export default defineComponent({
 </script>
 
 <template>
+  <HomeButton />
   <h1>Edit Topic</h1>
   <label for="topic-name">Topic Name:</label>
   <input
