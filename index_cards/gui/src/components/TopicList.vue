@@ -43,14 +43,6 @@ export default defineComponent({
         })
         .catch((error) => this._handleError(error));
     },
-    editTopic(topicId: number) {
-      this.$router.push({
-        name: "Edit Topic",
-        params: {
-          topicId: topicId,
-        },
-      });
-    },
   },
 });
 </script>
@@ -66,7 +58,6 @@ export default defineComponent({
     <TopicListItem
       v-for="topic in topics"
       @delete-topic="deleteTopic"
-      @edit-topic="editTopic"
       :topic-id="topic.id"
       :topic-name="topic.topicName"
     />

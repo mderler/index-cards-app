@@ -157,7 +157,10 @@ export class APIInterface {
       method: "POST",
       body: JSON.stringify({ topicId: topicId }),
     };
-    return await this._fetchAPI("cards/", requestOptions);
+    return (await this._fetchAPI(
+      "practisesessions/",
+      requestOptions
+    )) as PractiseSession;
   }
 
   static async deletePractiseSessions(practiseSessionId: number) {
