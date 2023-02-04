@@ -37,7 +37,7 @@ export default defineComponent({
           );
           if (!topic) return;
           const index = this.practiseSessions?.indexOf(topic);
-          if (!index) return;
+          if (index === undefined) return;
           this.practiseSessions?.splice(index, 1);
         })
         .catch((error) => {

@@ -19,7 +19,7 @@ class TopicSerializer(serializers.ModelSerializer):
 class CardSerializer(serializers.ModelSerializer):
     topicId = serializers.PrimaryKeyRelatedField(source='topic', queryset=Topic.objects.all())
     question = serializers.CharField(default='')
-    answer = serializers.CharField(default='')
+    answer = serializers.CharField(default='', allow_blank=True)
 
     class Meta:
         model = Card

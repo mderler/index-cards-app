@@ -24,9 +24,9 @@ export default defineComponent({
       })
       .catch((error) => alert(error));
 
-    APIInterface.getTopicCards(this.topicId).then((topicCards) => {
-      cards.value = topicCards;
-    });
+    APIInterface.getTopicCards(this.topicId).then(
+      (topicCards) => (cards.value = topicCards)
+    );
 
     return {
       topicName,
@@ -68,7 +68,7 @@ export default defineComponent({
           const topic = this.cards?.find((card) => card.id === cardId);
           if (!topic) return;
           const index = this.cards?.indexOf(topic);
-          if (!index) return;
+          if (index === undefined || index === -1) return;
           this.cards?.splice(index, 1);
         })
         .catch((error) => {
@@ -95,7 +95,7 @@ export default defineComponent({
       v-for="card in cards"
       :card-id="card.id"
       :init-question="card.question"
-      :intit-answer="card.answer"
+      :init-answer="card.answer"
       @delete-card="deleteCard"
     />
   </div>

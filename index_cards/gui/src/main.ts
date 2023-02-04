@@ -22,6 +22,7 @@ const router = createRouter({
       path: "/practise/:practiseSessionId",
       name: "Practise",
       component: Practise,
+      props: true,
     },
     {
       path: "/edittopic/:topicId",

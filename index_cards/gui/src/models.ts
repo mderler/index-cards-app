@@ -20,5 +20,5 @@ export interface SessionCard {
   readonly id: number;
   readonly cardId: number;
   readonly userAnswer: string;
-  readonly correct: boolean;
+  readonly correct?: boolean;
 }

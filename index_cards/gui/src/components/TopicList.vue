@@ -9,18 +9,20 @@ export default defineComponent({
     TopicListItem,
   },
   data() {
-    const loaded = ref(false);
     const topics = ref<Topic[]>();
+    const displayedTopics = ref<Topic[]>();
+    const search = ref("");
     APIInterface.getTopics()
       .then((data) => {
-        loaded.value = true;
         topics.value = data;
+        displayedTopics.value = topics.value;
       })
       .catch((error) => alert(error));
 
     return {
-      loaded,
       topics,
+      displayedTopics,
+      search,
     };
   },
   methods: {
@@ -40,8 +42,16 @@ export default defineComponent({
           const index = this.topics?.indexOf(topic);
           if (!index) return;
           this.topics?.splice(index, 1);
+          this.displayedTopics = this.topics;
         })
         .catch((error) => this._handleError(error));
+    },
+    searchTopics() {
+      this.displayedTopics = this.topics?.filter((topic) => {
+        return topic.topicName
+          .toLowerCase()
+          .includes(this.search.trim().toLowerCase());
+      });
     },
   },
 });
@@ -49,19 +59,18 @@ export default defineComponent({
 
 <template>
   <div class="topic-search">
-    <input type="text" />
+    <label for="search">Search:</label>
+    <input id="search" type="text" @input="searchTopics" v-model="search" />
     <router-link to="/createtopic" custom v-slot="{ navigate }">
       <button @click="navigate" role="link">Create Topic</button>
     </router-link>
   </div>
-  <div v-if="loaded">
-    <TopicListItem
-      v-for="topic in topics"
-      @delete-topic="deleteTopic"
-      :topic-id="topic.id"
-      :topic-name="topic.topicName"
-    />
-  </div>
+  <TopicListItem
+    v-for="topic in displayedTopics"
+    @delete-topic="deleteTopic"
+    :topic-id="topic.id"
+    :topic-name="topic.topicName"
+  />
 </template>
 
 <style scoped>

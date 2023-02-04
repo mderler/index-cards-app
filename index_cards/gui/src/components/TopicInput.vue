@@ -29,7 +29,6 @@ export default defineComponent({
       APIInterface.postTopic(this.topicName)
         .then((topic) => {
           this.okMessage = "Topic created";
-          console.log(topic);
           this.$router.push({
             name: "Edit Topic",
             params: {

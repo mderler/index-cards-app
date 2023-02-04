@@ -1,4 +1,4 @@
-import { Card, PractiseSession, Topic } from "./models";
+import { Card, PractiseSession, SessionCard, Topic } from "./models";
 import csrftoken from "./token";
 
 export class APIError extends Error {
@@ -143,6 +143,16 @@ export class APIInterface {
     return await this._fetchAPI("cards/", requestOptions);
   }
 
+  static async getPractiseSession(practiseSessionId: number) {
+    const requestOptions: RequestInit = {
+      method: "GET",
+    };
+    return await this._fetchAPI(
+      `practisesession/${practiseSessionId}`,
+      requestOptions
+    ).then((data) => data.data as PractiseSession);
+  }
+
   static async getPractiseSessions() {
     const requestOptions: RequestInit = {
       method: "GET",
@@ -171,5 +181,23 @@ export class APIInterface {
       `practisesession/${practiseSessionId}`,
       requestOptions
     );
+  }
+
+  static async getSessionCardsPractiseSession(practiseSessionId: number) {
+    const requestOptions: RequestInit = {
+      method: "GET",
+    };
+    return await this._fetchAPI(
+      `sessioncards/${practiseSessionId}`,
+      requestOptions
+    ).then((data) => data.data as SessionCard[]);
+  }
+
+  static async putSessionCard(sessionCardId: number, correct: boolean) {
+    const requestOptions: RequestInit = {
+      method: "PUT",
+      body: JSON.stringify({ correct: correct }),
+    };
+    return await this._fetchAPI(`sessioncard/${sessionCardId}`, requestOptions);
   }
 }

@@ -32,8 +32,8 @@ export default defineComponent({
   <div class="topic-list-item">
     <h4>{{ topicName }}</h4>
     <button @click="practiseTopic">Practise</button>
-    <button @click="$emit('editTopic', topicId)">Edit</button>
-    <button @click="editTopic">Delete</button>
+    <button @click="editTopic">Edit</button>
+    <button @click="$emit('deleteTopic', topicId)">Delete</button>
   </div>
 </template>
 

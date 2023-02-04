@@ -8,22 +8,24 @@ export default defineComponent({
     const question = ref(this.initQuestion);
     const answer = ref(this.initAnswer);
 
+    const questionError = ref(false);
+
     let oldQuestion = this.initQuestion;
     let oldAnswer = this.initAnswer;
 
     return {
       question,
       answer,
+      questionError,
       oldQuestion,
       oldAnswer,
     };
   },
   methods: {
-    _handleError(error: Error | APIError) {
+    async _handleError(error: Error | APIError) {
       if (error instanceof APIError) {
-        let errorJson = error.response;
-        console.log(error.response);
-        alert(JSON.stringify(errorJson));
+        let errorJson = await error.response.json();
+        console.log(errorJson);
       } else if (error instanceof Error) {
         alert("Connection to server failed: " + error.message);
       }
@@ -32,6 +34,9 @@ export default defineComponent({
       if (this.oldQuestion == this.question && this.oldAnswer == this.answer) {
         return;
       }
+      this.questionError = this.question === "";
+      if (this.questionError) return;
+
       APIInterface.putCard(this.cardId, this.question, this.answer)
         .then((card) => {
           this.oldQuestion = card.question;
@@ -55,6 +60,9 @@ export default defineComponent({
         @focusout="updateCard"
         >{{ question }}</textarea
       >
+      <div v-if="questionError" class="error-message">
+        Question cannot be blank
+      </div>
     </div>
     <div class="label-textarea">
       <label for="answer-text-area">Answer:</label>
