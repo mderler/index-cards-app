@@ -15,7 +15,10 @@ export class APIInterface {
 
   private static _modifyRequestOptions(requestOptions: RequestInit) {
     if (requestOptions.method === "GET") {
-      requestOptions.mode = "same-origin";
+      requestOptions.mode = "cors";
+      requestOptions.headers = {
+        "Access-Control-Allow-Origin": window.location.origin,
+      };
       return requestOptions;
     }
     if (
