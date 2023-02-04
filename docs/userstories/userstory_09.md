@@ -1,4 +1,4 @@
-# userstory_09 List Topics
+# userstory_10 Show History
 
 ## Actors
 
@@ -6,17 +6,19 @@
 
 ## Description
 
-The user is greeted with a list of all existing topics.
+The user clicks on the history button and sees his past practise sessions.
 
 ## Input
 
+Button click
+
 ## Internal state change
 
--   Return all topics from database
+-   Return all practise sessions from database
 
 ## Output
 
--   List of topics
--   No topics found
+-   List of practise session
+-   No practise sessions found
 
 ## Errors

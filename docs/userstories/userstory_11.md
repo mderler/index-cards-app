@@ -2,7 +2,7 @@
 
 ## Actors
 
--   user
+- user
 
 ## Description
 
@@ -14,11 +14,10 @@ Button click
 
 ## Internal state change
 
--   Return all practise sessions from database
+- Return all answered session cards from database
 
 ## Output
 
--   List of practise session
--   No practise sessions found
+- answered session cards
 
 ## Errors

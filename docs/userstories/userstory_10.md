@@ -1,4 +1,4 @@
-# userstory_10 Show History
+# userstory_13 Answer Card
 
 ## Actors
 
@@ -6,19 +6,19 @@
 
 ## Description
 
-The user clicks on the history button and sees his past practise sessions.
+In the practise view the user sees a card with question and can type his answer in it.
 
 ## Input
 
-Button click
+Answer to question
 
 ## Internal state change
 
--   Return all practise sessions from database
+-   Update the "correct" coloumn of the SessionCard entry of the current card to true if the answer
+    is correct, otherwise false
 
 ## Output
 
--   List of practise session
--   No practise sessions found
+-   Visual indication if the answer is correct
 
 ## Errors
