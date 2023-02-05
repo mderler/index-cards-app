@@ -104,7 +104,15 @@ export default defineComponent({
     type="text"
     ref="inputRef"
   />
-  <button @click="submit" ref="submitButtonRef">Submit</button>
+  <button class="no-margin" @click="submit" ref="submitButtonRef">
+    Submit
+  </button>
   <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
   <p class="ok-message" v-if="okMessage">{{ okMessage }}</p>
 </template>
+
+<style scoped>
+button {
+  margin: 0px;
+}
+</style>

@@ -26,9 +26,14 @@ class CardSerializer(serializers.ModelSerializer):
         fields = ['id', 'topicId', 'question', 'answer']
 
 
+class CustomDateTimeField(serializers.Field):
+    def to_representation(self, value):
+        return value.strftime("%H:%M %d-%m-%Y")
+
+
 class PractiseSessionSerializer(serializers.ModelSerializer):
     topicId = serializers.PrimaryKeyRelatedField(source='topic', queryset=Topic.objects.all())
-    sessionStart = serializers.DateTimeField(source='session_start', default=datetime.now)
+    sessionStart = CustomDateTimeField(source='session_start', default=datetime.now)
 
     class Meta:
         model = PractiseSession

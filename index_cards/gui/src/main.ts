@@ -6,6 +6,7 @@ import CreateTopic from "./views/CreateTopic.vue";
 import EditTopicVue from "./views/EditTopic.vue";
 import PractiseSessionListVue from "./views/PractiseSessionList.vue";
 import Practise from "./views/Practise.vue";
+import PractiseSessionReviewVue from "./views/PractiseSessionReview.vue";
 import "./style.css";
 
 const router = createRouter({
@@ -22,6 +23,12 @@ const router = createRouter({
       path: "/practise/:practiseSessionId",
       name: "Practise",
       component: Practise,
+      props: true,
+    },
+    {
+      path: "/practisereview/:practiseSessionId",
+      name: "Practise Review",
+      component: PractiseSessionReviewVue,
       props: true,
     },
     {

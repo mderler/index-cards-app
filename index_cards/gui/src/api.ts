@@ -196,10 +196,14 @@ export class APIInterface {
     ).then((data) => data.data as SessionCard[]);
   }
 
-  static async putSessionCard(sessionCardId: number, correct: boolean) {
+  static async putSessionCard(
+    sessionCardId: number,
+    userAnswer: string,
+    correct: boolean
+  ) {
     const requestOptions: RequestInit = {
       method: "PUT",
-      body: JSON.stringify({ correct: correct }),
+      body: JSON.stringify({ correct: correct, userAnswer: userAnswer }),
     };
     return await this._fetchAPI(`sessioncard/${sessionCardId}`, requestOptions);
   }

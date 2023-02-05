@@ -78,3 +78,7 @@ button:focus-visible {
 .ok-message {
   color: green;
 }
+
+table {
+  text-align: left;
+}

@@ -72,7 +72,11 @@ export default defineComponent({
         return;
       }
 
-      await APIInterface.putSessionCard(this.currendSessionCard?.id, correct);
+      await APIInterface.putSessionCard(
+        this.currendSessionCard?.id,
+        this.userAnswerBox,
+        correct
+      );
       const index = this.unansweredSessionCards?.indexOf(
         this.currendSessionCard
       );
