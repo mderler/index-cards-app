@@ -1,5 +1,3 @@
-import { readonly } from "vue";
-
 export interface Topic {
   readonly id: number;
   readonly topicName: string;
