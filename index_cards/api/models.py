@@ -17,6 +17,14 @@ class PractiseSession(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     session_start = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding
+        super().save(*args, **kwargs)
+        if is_new:
+            cards = Card.objects.filter(topic=self.topic)
+            for card in cards:
+                SessionCard.objects.create(card=card, practise_session=self, user_answer='')
+
 
 class SessionCard(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
