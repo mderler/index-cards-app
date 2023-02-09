@@ -74,7 +74,8 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.topic-search {
-  display: flex;
+.topic-search label {
+  font-size: 1.5em;
+  margin-right: 1em;
 }
 </style>

@@ -7,6 +7,8 @@ export default defineComponent({
   data() {
     const count = ref(0);
     const answeredCount = ref(0);
+    const topicName = ref("");
+
     APIInterface.getSessionCardsPractiseSession(this.practiseSessionId).then(
       (sessionCards) => {
         count.value = sessionCards.length;
@@ -16,9 +18,17 @@ export default defineComponent({
       }
     );
 
+    APIInterface.getPractiseSession(this.practiseSessionId).then(
+      (practiseSession) =>
+        APIInterface.getTopic(practiseSession.topicId).then(
+          (topic) => (topicName.value = topic.topicName)
+        )
+    );
+
     return {
       count,
       answeredCount,
+      topicName,
     };
   },
   methods: {
@@ -44,7 +54,8 @@ export default defineComponent({
 
 <template>
   <div class="card">
-    <div id="count">{{ answeredCount }}/{{ count }}</div>
+    <div class="info">{{ topicName }}</div>
+    <div class="info">{{ answeredCount }}/{{ count }}</div>
     {{ sessionStart }}
     <button @click="practise">Continue</button>
     <button @click="review">Review</button>
@@ -59,7 +70,9 @@ export default defineComponent({
   border: 2px;
   border-color: aliceblue;
 }
-#count {
+
+.info {
   display: inline;
+  margin-right: 1em;
 }
 </style>

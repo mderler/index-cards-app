@@ -30,7 +30,9 @@ export default defineComponent({
 
 <template>
   <div class="topic-list-item">
-    <h4>{{ topicName }}</h4>
+    <div class="topic-name">
+      <h4>{{ topicName }}</h4>
+    </div>
     <button @click="practiseTopic">Practise</button>
     <button @click="editTopic">Edit</button>
     <button @click="$emit('deleteTopic', topicId)">Delete</button>
@@ -42,7 +44,7 @@ export default defineComponent({
   display: flex;
 }
 
-.card-div {
-  text-align: center;
+.topic-name {
+  margin-right: 1em;
 }
 </style>
